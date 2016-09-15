@@ -1,41 +1,3 @@
-/**
- * K-combinations
- *
- * Get k-sized combinations of elements in a set.
- *
- * Usage:
- *   k_combinations(set, k)
- *
- * Parameters:
- *   set: Array of objects of any type. They are treated as unique.
- *   k: size of combinations to search for.
- *
- * Return:
- *   Array of found combinations, size of a combination is k.
- *
- * Examples:
- *
- *   k_combinations([1, 2, 3], 1)
- *   -> [[1], [2], [3]]
- *
- *   k_combinations([1, 2, 3], 2)
- *   -> [[1,2], [1,3], [2, 3]
- *
- *   k_combinations([1, 2, 3], 3)
- *   -> [[1, 2, 3]]
- *
- *   k_combinations([1, 2, 3], 4)
- *   -> []
- *
- *   k_combinations([1, 2, 3], 0)
- *   -> []
- *
- *   k_combinations([1, 2, 3], -1)
- *   -> []
- *
- *   k_combinations([], 0)
- *   -> []
- */
 function k_combinations(set, k) {
 	var i, j, combs, head, tailcombs;
 
@@ -60,25 +22,6 @@ function k_combinations(set, k) {
 		return combs;
 	}
 
-	// Assert {1 < k < set.length}
-
-	// Algorithm description:
-	// To get k-combinations of a set, we want to join each element
-	// with all (k-1)-combinations of the other elements. The set of
-	// these k-sized sets would be the desired result. However, as we
-	// represent sets with lists, we need to take duplicates into
-	// account. To avoid producing duplicates and also unnecessary
-	// computing, we use the following approach: each element i
-	// divides the list into three: the preceding elements, the
-	// current element i, and the subsequent elements. For the first
-	// element, the list of preceding elements is empty. For element i,
-	// we compute the (k-1)-computations of the subsequent elements,
-	// join each with the element i, and store the joined to the set of
-	// computed k-combinations. We do not need to take the preceding
-	// elements into account, because they have already been the i:th
-	// element so they are already computed and stored. When the length
-	// of the subsequent list drops below (k-1), we cannot find any
-	// (k-1)-combs, hence the upper limit for the iteration:
 	combs = [];
 	for (i = 0; i < set.length - k + 1; i++) {
 		// head is a list that includes only our current element.
@@ -96,65 +39,100 @@ function k_combinations(set, k) {
 	return combs;
 };
 
-
+// Generating the learning data
 function generateData() {
 	var trainData = []
-	var num = [1,2,3,4,5,6,7,8,9]
+
 	for (i = 0; i<100; i++){
-		array = shuffle(num)
-		trainData.push(array)
+		var num = [1,2,3,4,5,6,7,8,9]
+		trainData.push(shuffle(num))
 	};
 	return trainData;
 };
 
-function shuffle(a) {
-	var j, x, i;
-	for (i = a.length; i; i--) {
-			j = Math.floor(Math.random() * i);
-			x = a[i - 1];
-			a[i - 1] = a[j];
-			a[j] = x;
-	}
-	return a;
-};
+function shuffle(array) {
+  var m = array.length, t, i;
 
-function buildLibrary (){
-	var dataRows = []
-	// this loops through each senario of the trainData
-	for (i = 0; i < trainData.length; i++){
-		// this loops through element of trainData[i] array and assign them
-		// to array x and array o, while checking is anyone won
-		for (j = 0; j < trainData[i].length; j++){
-			// check if x and o did not win
-			if ( check_15_x() && check_15_o() ){
-				// push element into x and dataRows
-				x.push.trainData[i][j]
-				dataRows.push.trainData[i][j]
-			};
-			else {
-				return dataRows.push(0);
-			};
-			// check if x and o did not win
-			if ( check_15_x() && check_15_o() ){
-				// push element into o and dataRows
-				o.push.trainData[i][j+1]
-				dataRows.push.trainData[i][j+1]
-			};
-		};else {
-			return dataRows.push(1);
-		}
-	};
+  // While there remain elements to shuffle…
+  while (m) {
+
+    // Pick a remaining element…
+    i = Math.floor(Math.random() * m--);
+
+    // And swap it with the current element.
+    t = array[m];
+    array[m] = array[i];
+    array[i] = t;
+  }
+
+  return array;
 };
 
 // Check if x has a winning combo of 3
-function check_15_x (){
+function check_15_x (x){
+	// This checks is 15 is in the combo. .inArray returns -1 if not true
 	return $.inArray(15, k_combinations(x, 3)) < 0
 };
 
 // Check if o has a winning combo of 3
-function check_15_o (){
-	return $.inArray(15, k_combinations(x, 3)) < 0
+function check_15_o (o){
+	// This checks is 15 is in the combo. .inArray returns -1 if not true
+	return $.inArray(15, k_combinations(o, 3)) < 0
 };
+
+// this loops through element of trainData[i] array and assign them
+// to array x and array o, while checking if anyone won
+function buildingRow (trainData){
+	var x = []
+	var o =[]
+	var dataRow = []
+	var abort = false
+
+	console.log(trainData)
+	for (var j = 0; j <= trainData.length; j+=2){
+		// check if x and o did not win
+		if ( check_15_x(x) && check_15_o(o) ){
+			// push element into x and dataRows
+			x.push(trainData[j])
+			// console.log(x)
+			dataRow.push(trainData[j])
+		}
+		else {
+			// Adding 1 at the end for winning
+			dataRow.push(1)
+			// console.log(dataRow)
+			return dataRow;
+		};
+		// check if x and o did not win
+		if ( check_15_x(x) && check_15_o(o) ){
+			// push element into o and dataRows
+			o.push(trainData[j+1])
+			dataRow.push(trainData[j+1])
+		}
+		else {
+			// Adding 0 at the end for losing
+			dataRow.push(0)
+			// console.log(dataRow)
+			return dataRow;
+		};
+	};
+	return dataRow;
+};
+
+function buildLibrary (){
+	var allTrainData = generateData();
+	var allDataRows = []
+
+	// this loops through each senario of the trainData
+	for ( var i = 0; i < allTrainData.length; i+=1){
+		allDataRows.push(buildingRow(allTrainData[i]))
+	};
+
+	return allDataRows;
+};
+
+
+
 
 
 
