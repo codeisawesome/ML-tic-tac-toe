@@ -1,22 +1,55 @@
 $(function(){
 
-// All the cool things that happens when a player makes a move
+  // All the cool things that happens when a player makes a move
   $('td').click( function(e){
-    playerMoveLog(this) });
+    playerMove(this)
+    // createXnO(this)
+  });
 
   $('button').click( function(){ createLibrary() });
 
-// when a person click I want to be able to store that move
+  // when a person click I want to be able to store that move
   var allMovesTracking = []
+  // xocounter is used to keep track of whether to put x or o on the board
+  xocounter = 1
 
-  function playerMoveLog(squareClicked){
-    var squareId = squareClicked.id
-// parse eg. td#9 into int 9
-    allMovesTracking.push(parseInt(squareId))
+  // this checks if the square has been clicked on before nothing happens
+  // else, playerMove calls moveLog to log the move
+  function playerMove(squareClicked){
+    var squareId = parseInt(squareClicked.id)
+    // console.log(squareId)
+
+    // check to see if the squareID is already in allMovesTracking (ie. have
+    // been played before)
+    if(allMovesTracking.indexOf(squareId) < 0){
+      moveLog(squareClicked)
+      createXnO(squareClicked)
+    }
+    else
+    {
+      console.log("can't play there")
+    }
+  };
+
+  function moveLog(squareClicked){
+
+    // parse eg. td#9 into int 9, parseInt(squareClicked.id)
+    // pushes it into allMovesTracking for tracking
+    allMovesTracking.push(parseInt(squareClicked.id))
+
     console.log(allMovesTracking)
   };
-// when a person click I want an x to appear where he clicked
 
+
+  // odd gives X, even gives O
+  function createXnO(e) {
+		xocounter++
+
+		if (xocounter%2 == 0)
+			$(e).append('x');
+		else
+			$(e).append('o');
+	};
 
 
 });
