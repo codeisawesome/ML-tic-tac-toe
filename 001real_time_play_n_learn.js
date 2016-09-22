@@ -6,7 +6,7 @@ $(function(){
     // createXnO(this)
   });
 
-  $('button').click( function(){ createLibrary() });
+  $('button').click( function(){ buildLibrary() });
 
   // when a person click I want to be able to store that move
   var allMovesTracking = []
@@ -14,7 +14,7 @@ $(function(){
   xocounter = 1
 
   // this checks if the square has been clicked on before nothing happens
-  // else, playerMove calls moveLog to log the move
+  // else, playerMove calls logMove to log the move
   function playerMove(squareClicked){
     var squareId = parseInt(squareClicked.id)
     // console.log(squareId)
@@ -22,7 +22,7 @@ $(function(){
     // check to see if the squareID is already in allMovesTracking (ie. have
     // been played before)
     if(allMovesTracking.indexOf(squareId) < 0){
-      moveLog(squareClicked)
+      logMove(squareClicked)
       createXnO(squareClicked)
     }
     else
@@ -31,7 +31,8 @@ $(function(){
     }
   };
 
-  function moveLog(squareClicked){
+  //log player's move
+  function logMove(squareClicked){
 
     // parse eg. td#9 into int 9, parseInt(squareClicked.id)
     // pushes it into allMovesTracking for tracking
