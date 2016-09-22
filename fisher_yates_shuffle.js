@@ -1,4 +1,5 @@
 // Fisher–Yates Shuffle
+// Used to shuffle generated random games
 function shuffle(array) {
   var m = array.length, t, i;
 
