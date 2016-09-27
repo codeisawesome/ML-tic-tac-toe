@@ -4,5 +4,9 @@ height: 100px;
 width: 100px;
 text-align: center;
 text-shadow:2px 2px 4px #000000;
-font-size: 250%
+font-size: 100%
+}
+
+.play {
+  font-size: 500%
 }

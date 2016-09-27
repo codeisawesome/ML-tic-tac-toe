@@ -9,22 +9,38 @@ $(function(){
   // Resets the board
   $('#reset').click( function(){ resetgame() });
 
-  $('#start').click( function(){ buildLibrary() });
+  // Generates the start the of game
+  $('#start').click( function(){ createIniLibrary() });
 
   // when a person click I want to be able to store that move
   var allMovesTracking = []
+
   // xocounter is used to keep track of whether to put x or o on the board
   xocounter = 1
 
-  //reset the game
+  // gamestatus indicator, to keep track if play pvp or pvc
+  gameStatus = 0
+
+  // reset the game, removes x and o from the board
   function resetgame(){
     $('.play').remove()
     allMovesTracking = []
+    gameStatus = 0
+  };
+
+
+  // builds the inital library
+  function createIniLibrary(){
+    gameStatus = 1
+    initialLibrary = buildLibrary()
   };
 
   // this checks if the square has been clicked on before nothing happens
   // else, playerMove calls logMove to log the move
   function playerMove(squareClicked){
+    if (gameStatus == 0){
+      return;
+    }
     var squareId = parseInt(squareClicked.id)
     // console.log(squareId)
 

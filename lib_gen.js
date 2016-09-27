@@ -1,5 +1,5 @@
 // Generate data set of 10000 per move (maybe allow for options later)
-// 
+//
 
 
 // Generating the learning data
