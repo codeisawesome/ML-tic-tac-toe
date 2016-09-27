@@ -6,12 +6,21 @@ $(function(){
     // createXnO(this)
   });
 
-  $('button').click( function(){ buildLibrary() });
+  // Resets the board
+  $('#reset').click( function(){ resetgame() });
+
+  $('#start').click( function(){ buildLibrary() });
 
   // when a person click I want to be able to store that move
   var allMovesTracking = []
   // xocounter is used to keep track of whether to put x or o on the board
   xocounter = 1
+
+  //reset the game
+  function resetgame(){
+    $('.play').remove()
+    allMovesTracking = []
+  };
 
   // this checks if the square has been clicked on before nothing happens
   // else, playerMove calls logMove to log the move
@@ -47,9 +56,9 @@ $(function(){
 		xocounter++
 
 		if (xocounter%2 == 0)
-			$(e).append('x');
+			$(e).append('<div class=play>x<div>');
 		else
-			$(e).append('o');
+			$(e).append('<div class=play>o<div>');
 	};
 
 
